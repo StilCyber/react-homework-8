@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import PostContainer from "./components/Post/PostContainer";
+import FormPost from "./components/UI/Form/FormPost";
+
 
 function App() {
+
+const [posts, setPosts] = useState([
+  {id: 1, title: 'Javascript'},
+  {id: 2, title: 'Python'}
+])
+
+const removePost = (removeItem) => {
+  setPosts(posts.filter(f => f.id !== removeItem.id))
+}
+const createPost = (newPost) => {
+  setPosts([...posts, newPost])
+}
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <FormPost create={createPost}/>
+        {posts.length !== 0
+        ? <PostContainer posts={posts} remove={removePost} />
+        : <div style={{textAlign: 'center'}}>Постов не найдено</div>
+        }
+      </div>
     </div>
   );
 }
